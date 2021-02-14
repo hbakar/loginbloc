@@ -29,9 +29,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  changeThePage(BuildContext context) {
-    Navigator.of(context)
-        .push(MaterialPageRoute(builder: (context) => PageTwo()));
+  final _txtEmail = TextEditingController();
+  final _txtPassword = TextEditingController();
+
+  final _controller = TextEditingController();
+  changeThePage(BuildContext context, String email, String password) {
+    Navigator.of(context).push(MaterialPageRoute(
+        builder: (context) => PageTwo(
+              email: email.trim(),
+              password: password.trim(),
+            )));
   }
 
   @override
@@ -53,6 +60,7 @@ class _HomePageState extends State<HomePage> {
               StreamBuilder<String>(
                   stream: bloc.email,
                   builder: (context, snapshot) => TextField(
+                      controller: _txtEmail,
                       keyboardType: TextInputType.emailAddress,
                       onChanged: bloc.emailChanged,
                       decoration: InputDecoration(
@@ -65,6 +73,7 @@ class _HomePageState extends State<HomePage> {
               StreamBuilder<String>(
                   stream: bloc.password,
                   builder: (context, snapshot) => TextField(
+                        controller: _txtPassword,
                         onChanged: bloc.passwordChanged,
                         obscureText: true,
                         keyboardType: TextInputType.text,
@@ -79,8 +88,10 @@ class _HomePageState extends State<HomePage> {
                 stream: bloc.submitCheck,
                 builder: (context, snapshot) => RaisedButton(
                   color: Colors.tealAccent,
-                  onPressed:
-                      snapshot.hasData ? () => changeThePage(context) : null,
+                  onPressed: snapshot.hasData
+                      ? () => changeThePage(context, _txtEmail.text.trim(),
+                          _txtPassword.text.trim())
+                      : null,
                   child: Text("Submit"),
                 ),
               ),

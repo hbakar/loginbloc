@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
+
 import 'validator.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -9,6 +11,7 @@ class Bloc extends Object with Validators implements BaseBloc {
   Function(String) get emailChanged => _emailController.sink.add;
   Function(String) get passwordChanged => _passwordController.sink.add;
 
+ 
   //Another way
   // StreamSink<String> get emailChanged => _emailController.sink;
   // StreamSink<String> get passwordChanged => _passwordController.sink;
@@ -21,7 +24,9 @@ class Bloc extends Object with Validators implements BaseBloc {
       Observable.combineLatest2(email, password, (e, p) => true);
 
   submit() {
-    print("xyx");
+   
+
+    print("${email} - ${password}");
   }
 
   @override
